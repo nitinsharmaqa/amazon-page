@@ -1,0 +1,9 @@
+package com.amazon.page;
+
+import org.testng.annotations.Test;
+
+public class VerifyAmazonPage {
+  @Test
+  public void f() {
+  }
+}
