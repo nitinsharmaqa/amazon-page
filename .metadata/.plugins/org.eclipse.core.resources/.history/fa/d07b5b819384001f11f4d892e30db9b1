@@ -1,0 +1,68 @@
+package com.amazon.page;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.concurrent.TimeUnit;
+
+public class VerifyAmazonPage {
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setup() {
+        // Set the path for the WebDriver executable
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
+
+    @Test
+    public void testAmazonTitle() {
+        try {
+            // Navigate to Amazon
+            driver.get("https://www.amazon.com");
+
+            // Wait for the page to load
+            Thread.sleep(2000); // Optional: Add wait to allow manual CAPTCHA resolution if needed
+
+            // Get the title of the page
+            String title = driver.getTitle();
+            System.out.println("Page title is: " + title);
+
+            // Assert the title contains "Amazon"
+            Assert.assertTrue(title.contains("Amazon"), "Title does not contain 'Amazon'.");
+
+        } catch (Exception e) {
+            // Handle CAPTCHA scenario
+            System.err.println("CAPTCHA encountered! Please resolve it manually, then rerun the test.");
+            // You may want to wait indefinitely or use a conditional wait here.
+            while (true) {
+                // Infinite loop, wait for manual resolution
+                try {
+                    Thread.sleep(5000); // Wait 5 seconds before checking again
+                    String title = driver.getTitle();
+                    if (title.contains("Amazon")) {
+                        break; // Break loop if CAPTCHA resolved and title is correct
+                    }
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        // Close the browser
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+

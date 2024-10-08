@@ -1,0 +1,17 @@
+package com.amazon.testcases;
+
+import com.amazon.base.BaseTest;
+import com.amazon.pages.AmazonHomePage;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class AmazonHomePageTest extends BaseTest {
+
+    @Test
+    public void verifyAmazonHomePageTitle() {
+        AmazonHomePage homePage = new AmazonHomePage(driver);
+        homePage.openAmazonHomePage();
+        String pageTitle = homePage.getHomePageTitle();
+        Assert.assertTrue(pageTitle.contains("Online"), "Title does not contain 'Online'");
+    }
+}

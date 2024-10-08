@@ -1,0 +1,9 @@
+package com.amazon.pages;
+
+import org.testng.annotations.Test;
+
+public class AmazonHomePage {
+  @Test
+  public void f() {
+  }
+}
