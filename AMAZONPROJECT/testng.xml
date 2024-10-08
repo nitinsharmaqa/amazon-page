@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel="tests">
-    <test thread-count="5" name="TestChrome">
+<suite name="SeleniumGridSuite" parallel="tests">
+    <test thread-count="3" name="ChromeTest">
         <parameter name="browser" value="chrome" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
         <classes>
             <class name="com.amazon.testcases.AmazonHomePageTest" />
         </classes>
     </test>
-
-    <test thread-count="5" name="TestFirefox">
+    
+    <test thread-count="3" name="FirefoxTest">
         <parameter name="browser" value="firefox" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
         <classes>
             <class name="com.amazon.testcases.AmazonHomePageTest" />
         </classes>
     </test>
 
-    <test thread-count="5" name="TestEdge">
+    <test thread-count="3" name="EdgeTest">
         <parameter name="browser" value="edge" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
         <classes>
             <class name="com.amazon.testcases.AmazonHomePageTest" />
         </classes>

@@ -1,28 +1,46 @@
 package com.amazon.base;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class BaseTest {
     protected WebDriver driver;
 
-    @Parameters("browser")
     @BeforeClass
-    public void setup(@Optional("chrome") String browser) {
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver = new ChromeDriver();	
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = new FirefoxDriver();
-        } else if (browser.equalsIgnoreCase("edge")) {
-            driver = new EdgeDriver();
+    @Parameters({"browser", "gridUrl"})
+    public void setup(String browser, String gridUrl) {
+        try {
+            switch (browser.toLowerCase()) {
+                case "chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    // Add any necessary options for Chrome
+                    driver = new RemoteWebDriver(new URL(gridUrl), chromeOptions);
+                    break;
+                case "firefox":
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    // Add any necessary options for Firefox
+                    driver = new RemoteWebDriver(new URL(gridUrl), firefoxOptions);
+                    break;
+                case "edge":
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    // Add any necessary options for Edge
+                    driver = new RemoteWebDriver(new URL(gridUrl), edgeOptions);
+                    break;
+                default:
+                    throw new RuntimeException("Browser not supported: " + browser);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid grid URL: " + gridUrl, e);
         }
-        driver.manage().window().maximize();
     }
 
     @AfterClass

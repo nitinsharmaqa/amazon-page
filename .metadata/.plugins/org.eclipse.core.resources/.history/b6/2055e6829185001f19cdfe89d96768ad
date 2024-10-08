@@ -1,0 +1,46 @@
+package com.amazon.base;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class BaseTest {
+    protected WebDriver driver;
+
+    @BeforeClass
+    @Parameters({"browser", "gridUrl"})
+    public void setup(String browser, String gridUrl) throws MalformedURLException {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        if (browser.equalsIgnoreCase("chrome")) {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            driver = new RemoteWebDriver(new URL(gridUrl), chromeOptions);
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            driver = new RemoteWebDriver(new URL(gridUrl), firefoxOptions);
+        } else if (browser.equalsIgnoreCase("edge")) {
+            EdgeOptions edgeOptions = new EdgeOptions();
+            driver = new RemoteWebDriver(new URL(gridUrl), edgeOptions);
+        } else {
+            throw new IllegalArgumentException("Browser not supported: " + browser);
+        }
+
+        driver.manage().window().maximize();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}

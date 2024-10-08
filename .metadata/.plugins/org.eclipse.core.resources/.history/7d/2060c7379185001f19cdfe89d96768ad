@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SeleniumGridSuite" parallel="tests">
+    <test thread-count="3" name="ChromeTest">
+        <parameter name="browser" value="chrome" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
+        <classes>
+            <class name="com.amazon.testcases.VerifyAmazonHomePage" />
+        </classes>
+    </test>
+    
+    <test thread-count="3" name="FirefoxTest">
+        <parameter name="browser" value="firefox" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
+        <classes>
+            <class name="com.amazon.testcases.VerifyAmazonHomePage" />
+        </classes>
+    </test>
+
+    <test thread-count="3" name="EdgeTest">
+        <parameter name="browser" value="edge" />
+        <parameter name="gridUrl" value="http://localhost:4444/wd/hub" />
+        <classes>
+            <class name="com.amazon.testcases.VerifyAmazonHomePage" />
+        </classes>
+    </test>
+</suite>
